@@ -5,29 +5,31 @@ function Projects() {
   const [currentSlides, setCurrentSlides] = useState({})
   const [pausedSliders, setPausedSliders] = useState({})
   
+  const basePath = import.meta.env.BASE_URL
+  
   const imperiumImages = [
-    '/images/projects/imperium_roma1.png',
-    '/images/projects/imperium_roma2.png',
-    '/images/projects/imperium_roma3.png',
-    '/images/projects/imperium_roma4.png'
+    `${basePath}images/projects/imperium_roma1.png`,
+    `${basePath}images/projects/imperium_roma2.png`,
+    `${basePath}images/projects/imperium_roma3.png`,
+    `${basePath}images/projects/imperium_roma4.png`
   ]
   const DomusImages = [
-    '/images/projects/domusconstruction1.png',
-    '/images/projects/domusconstruction2.png',
-    '/images/projects/domusconstruction3.png',
+    `${basePath}images/projects/domusconstruction1.png`,
+    `${basePath}images/projects/domusconstruction2.png`,
+    `${basePath}images/projects/domusconstruction3.png`,
   ]
   const MishaEditsImages = [
-    '/images/projects/misha1.png',
-    '/images/projects/misha2.png',
-    '/images/projects/misha3.png',
+    `${basePath}images/projects/misha1.png`,
+    `${basePath}images/projects/misha2.png`,
+    `${basePath}images/projects/misha3.png`,
   ]
 
   const NLTImages = [
-    '/images/projects/nlt1.png',
-    '/images/projects/nlt2.png',
-    '/images/projects/nlt3.png',
-    '/images/projects/nlt4.png',
-    '/images/projects/nlt5.png',
+    `${basePath}images/projects/nlt1.png`,
+    `${basePath}images/projects/nlt2.png`,
+    `${basePath}images/projects/nlt3.png`,
+    `${basePath}images/projects/nlt4.png`,
+    `${basePath}images/projects/nlt5.png`,
   ]
 
   const projects = [
