@@ -1,0 +1,48 @@
+.app {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+section {
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: #fff;
+  font-weight: 700;
+  text-align: left;
+  letter-spacing: -0.5px;
+  position: relative;
+  display: inline-block;
+}
+
+section h2 .heading-accent {
+  position: absolute;
+  bottom: -8px;
+  right: -15px;
+  width: 40px;
+  height: 8px;
+  background: #4a90e2;
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 3rem 1.5rem;
+  }
+
+  section h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+}
