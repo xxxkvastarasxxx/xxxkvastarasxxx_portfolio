@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import emailjs from '@emailjs/browser'
 import './Contact.css'
 
 function Contact() {
@@ -7,6 +8,7 @@ function Contact() {
     email: '',
     message: ''
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (e) => {
     setFormData({
@@ -17,9 +19,34 @@ function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
-    alert('Thank you for your message! I will get back to you soon.')
-    setFormData({ name: '', email: '', message: '' })
+    setIsSubmitting(true)
+
+    // EmailJS credentials
+    const serviceID = 'service_ltokro8'
+    const templateID = 'template_eirkokx'
+    const publicKey = '72vkdanAwM1C9zbse'
+
+    // Initialize EmailJS with public key
+    emailjs.init(publicKey)
+
+    const templateParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      message: formData.message
+    }
+
+    emailjs.send(serviceID, templateID, templateParams)
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text)
+        alert('Thank you for your message! I will get back to you soon.')
+        setFormData({ name: '', email: '', message: '' })
+        setIsSubmitting(false)
+      })
+      .catch((error) => {
+        console.error('FAILED...', error)
+        alert('Oops! Something went wrong. Please try again or email me directly.')
+        setIsSubmitting(false)
+      })
   }
 
   return (
@@ -55,13 +82,15 @@ function Contact() {
             <textarea
               name="message"
               placeholder="Message"
-              rows="6"
+              rows="1"
               value={formData.message}
               onChange={handleChange}
               required
             />
           </div>
-          <button type="submit" className="submit-btn">SUBMIT</button>
+          <button type="submit" className="submit-btn" disabled={isSubmitting}>
+            {isSubmitting ? 'SENDING...' : 'SUBMIT'}
+          </button>
         </form>
 
         <div className="contact-links">
