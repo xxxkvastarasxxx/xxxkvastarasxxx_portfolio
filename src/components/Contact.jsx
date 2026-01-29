@@ -65,10 +65,13 @@ function Contact() {
         </form>
 
         <div className="contact-links">
-          <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="social-link">
+          <a href="https://github.com/xxxkvastarasxxx" target="_blank" rel="noopener noreferrer" className="social-link">
             GitHub
           </a>
-          <a href="mailto:taras@example.com" className="social-link">
+          <a href="https://www.linkedin.com/in/taras-tymoshenko-861262386/" target="_blank" rel="noopener noreferrer" className="social-link">
+            LinkedIn
+          </a>
+          <a href="mailto:taras.tymoshenko.developer@gmail.com" className="social-link">
             Email
           </a>
           <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className="social-link cv-link">
