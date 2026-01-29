@@ -1,7 +1,7 @@
 .contact {
   background-color: #000;
   color: #fff;
-  padding: 6rem 10%;
+  padding: 4rem 10% 2rem;
 }
 
 .contact-content {
@@ -96,9 +96,9 @@
 
 .footer {
   text-align: center;
-  padding-top: 2rem;
+  padding-top: 1.5rem;
   border-top: 1px solid #333;
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 
 .footer p {
@@ -110,14 +110,14 @@
 /* Tablet and below */
 @media (max-width: 1024px) {
   .contact {
-    padding: 5rem 8%;
+    padding: 4rem 8% 2rem;
   }
 }
 
 /* Tablet */
 @media (max-width: 768px) {
   .contact {
-    padding: 4rem 6%;
+    padding: 3rem 6% 1.5rem;
   }
 
   .contact-content {
@@ -157,7 +157,7 @@
 /* Mobile */
 @media (max-width: 480px) {
   .contact {
-    padding: 3rem 5%;
+    padding: 2.5rem 5% 1rem;
   }
 
   .contact h2 {

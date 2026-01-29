@@ -6,15 +6,25 @@ function ParticleBackground() {
 
   useEffect(() => {
     const canvas = canvasRef.current
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d', { alpha: true })
     let animationFrameId
     let particles = []
-    const mouse = { x: null, y: null, radius: 200 }
-
-    // Set canvas size
+    const mouse = { x: null, y: null, radius: 150 }
+    
+    // Detect if mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    
+    // Set canvas size with device pixel ratio for sharpness
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      const width = window.innerWidth
+      const height = window.innerHeight
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      canvas.style.width = width + 'px'
+      canvas.style.height = height + 'px'
+      ctx.scale(dpr, dpr)
     }
     resizeCanvas()
     window.addEventListener('resize', resizeCanvas)
@@ -80,13 +90,13 @@ function ParticleBackground() {
     // Particle class
     class Particle {
       constructor() {
-        this.x = Math.random() * canvas.width
-        this.y = Math.random() * canvas.height
+        this.x = Math.random() * (canvas.width / dpr)
+        this.y = Math.random() * (canvas.height / dpr)
         this.baseX = this.x
         this.baseY = this.y
-        this.size = Math.random() * 2 + 1
-        this.speedX = Math.random() * 0.5 - 0.25
-        this.speedY = Math.random() * 0.5 - 0.25
+        this.size = Math.random() * 2 + 1.5
+        this.speedX = Math.random() * 0.4 - 0.2
+        this.speedY = Math.random() * 0.4 - 0.2
         this.density = Math.random() * 30 + 1
       }
 
@@ -96,17 +106,17 @@ function ParticleBackground() {
         this.baseY += this.speedY
 
         // Bounce off edges
-        if (this.baseX > canvas.width || this.baseX < 0) {
+        if (this.baseX > canvas.width / dpr || this.baseX < 0) {
           this.speedX = -this.speedX
         }
-        if (this.baseY > canvas.height || this.baseY < 0) {
+        if (this.baseY > canvas.height / dpr || this.baseY < 0) {
           this.speedY = -this.speedY
         }
 
         // Check if in dots-only section (no mouse interaction there)
         const inDotsOnlySection = isInDotsOnlySection(this.y) && !isInDarkSection(this.y)
 
-        // Mouse interaction - push particles away (only in Hero/Contact)
+        // Mouse/touch interaction - push particles away (only in Hero/Contact)
         if (mouse.x != null && mouse.y != null && !inDotsOnlySection) {
           const dx = mouse.x - this.x
           const dy = mouse.y - this.y
@@ -117,31 +127,31 @@ function ParticleBackground() {
             const force = (maxDistance - distance) / maxDistance
             const forceDirectionX = dx / distance
             const forceDirectionY = dy / distance
-            const moveX = forceDirectionX * force * this.density * 0.6
-            const moveY = forceDirectionY * force * this.density * 0.6
+            const moveX = forceDirectionX * force * this.density * 0.5
+            const moveY = forceDirectionY * force * this.density * 0.5
 
             this.x = this.baseX - moveX
             this.y = this.baseY - moveY
           } else {
-            // Smoothly return to base position
+            // Smoothly return to base position - faster response
             if (this.x !== this.baseX) {
               const dx = this.x - this.baseX
-              this.x -= dx / 10
+              this.x -= dx / 6
             }
             if (this.y !== this.baseY) {
               const dy = this.y - this.baseY
-              this.y -= dy / 10
+              this.y -= dy / 6
             }
           }
         } else {
-          // Return to base when mouse leaves or in About section
+          // Return to base when mouse leaves - faster response
           if (this.x !== this.baseX) {
             const dx = this.x - this.baseX
-            this.x -= dx / 20
+            this.x -= dx / 8
           }
           if (this.y !== this.baseY) {
             const dy = this.y - this.baseY
-            this.y -= dy / 20
+            this.y -= dy / 8
           }
         }
       }
@@ -155,14 +165,14 @@ function ParticleBackground() {
 
         // For About/Projects section - simple floating dots, no glow effects
         if (inDotsOnly && !inDarkSection) {
-          ctx.fillStyle = 'rgba(74, 144, 226, 0.4)'
+          ctx.fillStyle = 'rgba(74, 144, 226, 0.5)'
           ctx.beginPath()
-          ctx.arc(this.x, this.y, this.size * 0.8, 0, Math.PI * 2)
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
           ctx.fill()
           return
         }
 
-        // For Hero/Contact sections - full effect with glow
+        // For Hero/Contact sections - cleaner effect without heavy blur
         let glowIntensity = 0
         if (mouse.x != null && mouse.y != null) {
           const dx = mouse.x - this.x
@@ -173,20 +183,29 @@ function ParticleBackground() {
           }
         }
 
-        ctx.shadowBlur = 10 + glowIntensity * 15
-        ctx.shadowColor = `rgba(74, 144, 226, ${0.5 + glowIntensity * 0.5})`
-        ctx.fillStyle = `rgba(74, 144, 226, ${0.6 + glowIntensity * 0.4})`
+        // Draw outer glow (only when interacting, and lighter)
+        if (glowIntensity > 0.1) {
+          ctx.fillStyle = `rgba(74, 144, 226, ${glowIntensity * 0.3})`
+          ctx.beginPath()
+          ctx.arc(this.x, this.y, this.size + 4, 0, Math.PI * 2)
+          ctx.fill()
+        }
+
+        // Draw main particle
+        ctx.fillStyle = `rgba(74, 144, 226, ${0.7 + glowIntensity * 0.3})`
         ctx.beginPath()
-        ctx.arc(this.x, this.y, this.size + glowIntensity * 2, 0, Math.PI * 2)
+        ctx.arc(this.x, this.y, this.size + glowIntensity * 1.5, 0, Math.PI * 2)
         ctx.fill()
-        ctx.shadowBlur = 0
       }
     }
 
-    // Create particles
+    // Create particles - fewer on mobile for performance
     const initParticles = () => {
       particles = []
-      const numberOfParticles = Math.max((canvas.width * canvas.height) / 10000, 80)
+      const baseCount = (canvas.width * canvas.height) / (dpr * dpr) / 10000
+      const numberOfParticles = isMobile 
+        ? Math.min(Math.max(baseCount * 0.6, 40), 60)
+        : Math.max(baseCount, 80)
       for (let i = 0; i < numberOfParticles; i++) {
         particles.push(new Particle())
       }
@@ -287,14 +306,36 @@ function ParticleBackground() {
       mouse.y = null
     }
 
+    // Touch events for mobile
+    const handleTouchMove = (e) => {
+      if (e.touches.length > 0) {
+        mouse.x = e.touches[0].clientX
+        mouse.y = e.touches[0].clientY
+      }
+    }
+
+    const handleTouchEnd = () => {
+      // Delay clearing to allow smooth animation
+      setTimeout(() => {
+        mouse.x = null
+        mouse.y = null
+      }, 100)
+    }
+
     document.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseleave', handleMouseLeave)
+    document.addEventListener('touchmove', handleTouchMove, { passive: true })
+    document.addEventListener('touchend', handleTouchEnd)
+    document.addEventListener('touchcancel', handleTouchEnd)
 
     // Cleanup
     return () => {
       window.removeEventListener('resize', resizeCanvas)
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseleave', handleMouseLeave)
+      document.removeEventListener('touchmove', handleTouchMove)
+      document.removeEventListener('touchend', handleTouchEnd)
+      document.removeEventListener('touchcancel', handleTouchEnd)
       cancelAnimationFrame(animationFrameId)
     }
   }, [])
