@@ -3,7 +3,7 @@
   line-height: 1.6;
   font-weight: 400;
   color: #213547;
-  background-color: #ffffff;
+  background-color: #000000;
   
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -44,6 +44,8 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: #000;
+  overscroll-behavior: none;
 }
 
 body {
@@ -51,9 +53,12 @@ body {
   min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
+  background-color: #000;
+  overscroll-behavior: none;
 }
 
 #root {
   width: 100%;
   overflow-x: hidden;
+  background-color: #000;
 }

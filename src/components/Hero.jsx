@@ -24,7 +24,7 @@ function Hero() {
           </a>
           
           <a 
-            href="https://linkedin.com/in/your-profile" 
+            href="https://www.linkedin.com/in/taras-tymoshenko-861262386/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="social-link"
@@ -37,7 +37,7 @@ function Hero() {
           </a>
           
           <a 
-            href="mailto:your.email@example.com" 
+            href="mailto:taras.tymoshenko.developer@gmail.com" 
             className="social-link"
             aria-label="Email"
           >
@@ -48,7 +48,7 @@ function Hero() {
           </a>
           
           <a 
-            href="/path-to-your-cv.pdf" 
+            href="/cv.pdf" 
             target="_blank" 
             rel="noopener noreferrer"
             className="social-link"
