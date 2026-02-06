@@ -48,7 +48,7 @@ function Hero() {
           </a>
           
           <a 
-            href="/cv.pdf" 
+            href="/TarasTymoshenkoCV.pdf" 
             target="_blank" 
             rel="noopener noreferrer"
             className="social-link"

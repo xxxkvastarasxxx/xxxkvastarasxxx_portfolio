@@ -103,7 +103,7 @@ function Contact() {
           <a href="mailto:taras.tymoshenko.developer@gmail.com" className="social-link">
             Email
           </a>
-          <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className="social-link cv-link">
+          <a href="/TarasTymoshenkoCV.pdf" target="_blank" rel="noopener noreferrer" className="social-link cv-link">
             CV
           </a>
         </div>
